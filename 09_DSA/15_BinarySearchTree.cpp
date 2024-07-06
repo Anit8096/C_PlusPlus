@@ -1,37 +1,40 @@
 #include <iostream>
-#include <utility>
-#include <queue>
 using namespace std;
-
-struct node {
+struct Node {
     int key;
-    struct node *left, *right;
+    struct Node *left, *right;
 };
 
-struct node* newNode(int item) {
-    struct node* temp = (struct node*)malloc(sizeof(struct node));
-    temp->key = item;
-    temp->left = temp->right = NULL;
+struct Node *NewNode(int val) {
+    struct Node* temp = new struct Node;
+    temp->key = val;
+    temp->right = temp->left = NULL;
     return temp;
 }
 
-struct node* insert(struct node* node, int key) {
-    
-    if (node == NULL)
-        return newNode(key);
+Node *insert( Node *root, int keyy) {
+    if (!root)
+        return NewNode(keyy);
 
-    if (key < node->key) {
-        node->left = insert(node->left, key);
-    }
-    else if (key > node->key) {
-        node->right = insert(node->right, key);
-    }
+    (keyy < root->key)
+        ? root->left = insert(root->left, keyy)
+        : root->right = insert(root->right, keyy);
 
-    return node;
+    return root;
 }
 
-struct node* minValueNode(struct node* node) {
-    struct node* current = node;
+Node* search(Node* root, int val) {
+    if (root == nullptr || root->key == val)
+        return root;
+
+    if (root->key < val)
+        return search(root->right, val);
+    else
+        return search(root->left, val);
+}
+
+struct Node* minValueNode(struct Node* node) {
+    struct Node* current = node;
 
     while (current && current->left != NULL)
         current = current->left;
@@ -39,90 +42,65 @@ struct node* minValueNode(struct node* node) {
     return current;
 }
 
-struct node* deleteNode(struct node* root, int key) {
-
+Node *deleteNode(Node *root, int d_val) {
     if (root == NULL)
         return root;
 
-    if (key < root->key) {
-        root->left = deleteNode(root->left, key);
-    }
+    (d_val < root->key)
+        ? root->left = deleteNode(root->left, d_val)
+        : root->right = deleteNode(root->right, d_val);
 
-    else if (key > root->key) {
-        root->right = deleteNode(root->right, key);
-    }
-
-    else {
+    if (root->key == d_val){
         if (root->left == NULL) {
-            struct node* temp = root->right;
+            struct Node* temp = root->right;
             free(root);
             return temp;
         }
         else if (root->right == NULL) {
-            struct node* temp = root->left;
+            struct Node* temp = root->left;
             free(root);
             return temp;
         }
-
-        struct node* temp = minValueNode(root->right);
-
+        struct Node* temp = minValueNode(root->right);
         root->key = temp->key;
         root->right = deleteNode(root->right, temp->key);
     }
     return root;
 }
 
-void inorder(struct node* root) {
+void inorder(Node *root) {
     if (root != NULL) {
         inorder(root->left);
-        cout << " " << root->key;
+        cout<<" "<< root->key;
         inorder(root->right);
     }
 }
 
-node* search (node* root, int f_val) {
-    if (root == NULL)
-        return NULL;
-
-    if (root->key == f_val)
-        return root;
-
-    if (root->key > f_val) 
-        return search(root->right, f_val);
+int main()
+{
     
-    return search(root->left, f_val);
-}
-
-int main() {
-     
-    /* Let us create following BST 
+    /* 
+    Let us create following BST 
               50 
            /     \ 
           30      70 
          /  \    /  \ 
        20   40  60   80 
    */
-    struct node* root = NULL;
+    Node* root = NULL;
 
     // Creating the BST
     root = insert(root, 50);
-    insert(root, 80);
+    insert(root, 30);
     insert(root, 20);
     insert(root, 40);
-    insert(root, 30);
-    insert(root, 60);
     insert(root, 70);
+    insert(root, 60);
+    insert(root, 80);
 
     // Function Call
-
-    cout<<"In-order-> ";
+    cout << "Inorder Traversal ->";
     inorder(root);
-    cout<<endl;
-
-    if (search(root, 100) == NULL) 
-        cout<<"Key Dosen't Exist\n";
-    else
-        cout<<"Key Exist\n";
-
+    
     return 0;
 }
