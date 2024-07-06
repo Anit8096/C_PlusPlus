@@ -103,8 +103,7 @@ Node* deletion(Node* root, int key) {
             q.push(temp->right);
     }
     if (Key_Node != NULL) {
-        int x = temp->data;
-        Key_Node->data = x;
+        Key_Node->data = temp->data;
         deletDeepest(root, temp);
     }
 
