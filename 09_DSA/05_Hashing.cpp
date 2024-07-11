@@ -5,17 +5,17 @@
 using namespace std;
 
 class HashTable {
-    private:
-        static const int HashGroups = 10;
-        list<pair<int, string>> Table[HashGroups];
-    
-    public:
-        bool isEmpty();
-        int HashFunction(int key);
-        void InsertItem(int key, string value);
-        void DeleateItem(int key);
-        string Search(int key);
-        void PrintTable();
+private:
+    static const int HashGroups = 10;
+    list<pair<int, string>> Table[HashGroups];
+  
+public:
+    bool isEmpty();
+    int HashFunction(int key);
+    void InsertItem(int key, string value);
+    void DeleateItem(int key);
+    string Search(int key);
+    void PrintTable();
 };
 
 bool HashTable::isEmpty() {
