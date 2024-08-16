@@ -11,7 +11,7 @@ vector<vector<int>> create_AdjMatrix(const vector<vector<int>>& Edges, bool Dire
     set<int> vertices_set;
     for (const auto& edge : Edges) {
         vertices_set.insert(edge[0]);
-        vertices_set.insert(edge[1]);
+        vertices_set.insert(edge[1]); 
     }
 
     vector<int> vertices(vertices_set.begin(), vertices_set.end());
